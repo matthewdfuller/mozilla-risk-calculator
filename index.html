@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Risk Rating Calculator</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        function calcScore() {
+            var priority_val = parseInt(document.getElementById('priority_val').value);
+            var op_impact = parseInt(document.getElementById('op_impact').value);
+            var user_impact = parseInt(document.getElementById('user_impact').value);
+            var privacy_impact = parseInt(document.getElementById('privacy_impact').value);
+            var eng_impact = parseInt(document.getElementById('eng_impact').value);
+            var rep_impact =  parseInt(document.getElementById('rep_impact').value);
+            
+            try {
+                var score = (op_impact + user_impact + privacy_impact + eng_impact + rep_impact) * priority_val;    
+            } catch(err) {
+                var score = 0;
+            }
+            
+            //alert(priority_val);
+            document.getElementById('score').value = score;
+            var rating = "";
+            if(score < 26) {
+                rating = "Low";
+            } else if (score > 25 && score < 76) {
+                rating = "Medium";
+            } else if (score > 75 && score < 100) {
+                rating = "High";
+            } else {
+                rating = "Critical"
+            }
+            
+            if(op_impact == 5 || user_impact == 5 || privacy_impact == 5 || eng_impact == 5 || rep_impact == 5) {
+                rating += " // Blocker"
+            }
+            
+            document.getElementById('rating').value = rating;
+            
+        }
+    </script>
+    
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        .the_table {
+            border: 1px solid #BBBBBB;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .the_table td {
+            padding: 3px;
+        }
+        .non_edit {
+            border: 0px;
+            font-weight: bold;
+            font-size: 18pt;
+        }
+        .redbox {
+            border: 2px solid red;
+            font-size: 12pt;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mozilla Risk Rating Calculator</h1>
+    <h2>Priority</h2>
+    <table border="1" class="the_table">
+<tbody><tr>
+<td align="center" style="background:#f0f0f0;"><b>Rank</b>
+</td>
+<td align="center" style="background:#f0f0f0;"><b>Priority</b>
+</td>
+<td align="center" style="background:#f0f0f0;"><b>Type</b>
+</td>
+<td align="center" style="background:#f0f0f0;"><b>Definition</b>
+</td></tr>
+<tr>
+<td>5</td>
+<td>P1</td>
+<td>Incident</td>
+<td>An active threat vector to Mozilla
+</td></tr>
+<tr>
+<td>4</td>
+<td>P2</td>
+<td>Mozilla Initiative</td>
+<td>A project wide initiate to achieve a specific goal (ie. k9o, basecamp)
+</td></tr>
+<tr>
+<td>3</td>
+<td>P3</td>
+<td>Overall Mozilla Quarterly Goal</td>
+<td>Specific quarterly goal that spans functional areas (includes ongoing goals like "keep Firefox safe")
+</td></tr>
+<tr>
+<td>2</td>
+<td>P4</td>
+<td>Team Quarterly Goal (Any Team)</td>
+<td>The specific action or bug is directly related to the publicly stated quarterly goals of that area
+</td></tr>
+<tr>
+<td>1</td>
+<td>P5</td>
+<td>Age</td>
+<td>Reviews that were previously uncategorized but are now older than 'x' time <b><i>need to define </b></i>
+</b></td></tr>
+<tr>
+<td>0</td>
+<td>None</td>
+<td>Other</td>
+<td>Any other request that does not fall into the above categories
+</td></tr></tbody></table>
+
+<br/>
+Enter Overall Priority (0-5): <input class="redbox" id="priority_val" type="text" onkeyup="calcScore()"/>
+<br/><br/>
+
+<h2>Impact</h2>
+<table class="the_table" border=1>
+    <tbody>
+        <tr>
+            <td align="center" style="background:#f0f0f0;"><b>Rank</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>Impact</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>Operational</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>User</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>Privacy</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>Engineering</b>
+            </td>
+            <td align="center" style="background:#f0f0f0;"><b>Reputation</b>
+            </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>blocker</td>
+            <td class="operational 5">down until fixed or permanently removed</td>
+            <td class="user 5">Complete control over the users device</td>
+            <td class="privacy 5">Violation of Privacy Policy with production data</td>
+            <td class="eng 5">Platform or Application configuration changes needed.</td>
+            <td class="rep 5">Negative press in mainstream media
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>critical</td>
+            <td>Significant Outage (intl store)</td>
+            <td>The ability to execute scripts and code that is sandboxed on the users device</td>
+            <td>Violation of Privacy Policy</td>
+            <td>Reimplementation of core components required.</td>
+            <td>Negative press in industry media
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>major</td>
+            <td>Moderate Outage, complaints from users</td>
+            <td>Specific information about specific users can be obtained</td>
+            <td>Moderate concerns over Privacy issues</td>
+            <td>New development required to resolve issues.</td>
+            <td>Negative comments from user base
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>normal</td>
+            <td>Minor Outage, in line with SLAs</td>
+            <td>User behaviour can be trended</td>
+            <td>Minor concerns over Privacy issues</td>
+            <td>Multiple bug fixes and changes required.</td>
+            <td>Negative comments from community members
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>minor</td>
+            <td>Ops Team Notified</td>
+            <td>Browser crashes</td>
+            <td>Unresolved privacy issues inline with Privacy Policy</td>
+            <td>Platform or Application configuration changes needed.</td>
+            <td>Negative comments from stakeholders
+            </td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>N/A</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </td>
+        </tr>
+        <tr>
+            <td>SCORE: </td>
+            <td></td>
+            <td><input class="redbox" id="op_impact" type="text" onkeyup="calcScore()"/></td>
+            <td><input class="redbox" id="user_impact" type="text" onkeyup="calcScore()"/></td>
+            <td><input class="redbox" id="privacy_impact" type="text" onkeyup="calcScore()"/></td>
+            <td><input class="redbox" id="eng_impact" type="text" onkeyup="calcScore()"/></td>
+            <td><input class="redbox" id="rep_impact" type="text" onkeyup="calcScore()"/></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<h2>Score Result</h2>   
+    Total Priority Score = (total of impact scores X priority value)<br/><br/>
+
+    Your Score Is: <input class="non_edit" id="score" type="text" readonly="readonly"/><br/><br/>
+    
+    This is a rating of: <input class="non_edit" id="rating" type="text" readonly="readonly"/>
+
+</body>
