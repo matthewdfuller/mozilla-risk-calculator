@@ -14,13 +14,26 @@
             var eng_impact = parseInt(document.getElementById('eng_impact').value);
             var rep_impact =  parseInt(document.getElementById('rep_impact').value);
             
+            var ratings=new Array(op_impact, user_impact, privacy_impact, eng_impact, rep_impact);
+            
+            var num_not_zero = 0;   //Number of ratings above zero
+            
+            for(var i = 0; i < ratings.length; i++) {
+                if(parseInt(ratings[i]) > 0) {
+                    //alert(ratings[i]);
+                    num_not_zero += 1;
+                }
+            }
+            
+            var max_score = (num_not_zero * 5) * 5;
+            var added_up = (op_impact + user_impact + privacy_impact + eng_impact + rep_impact) * priority_val;
             try {
-                var score = (op_impact + user_impact + privacy_impact + eng_impact + rep_impact) * priority_val;    
-            } catch(err) {
+                var score = (added_up/max_score) * 100;
+            } catch (e) {
                 var score = 0;
             }
             
-            //alert(priority_val);
+            //Print score to screen
             document.getElementById('score').value = score;
             var rating = "";
             if(score < 26) {
@@ -70,6 +83,7 @@
 <body>
     <h1>Mozilla Risk Rating Calculator</h1>
     <h2>Priority</h2>
+    
     <table border="1" class="the_table">
 <tbody><tr>
 <td align="center" style="background:#f0f0f0;"><b>Rank</b>
@@ -118,7 +132,15 @@
 </td></tr></tbody></table>
 
 <br/>
-Enter Overall Priority (0-5): <input class="redbox" id="priority_val" type="text" onkeyup="calcScore()"/>
+Enter Overall Priority (0-5):
+<select id="priority_val" class="redbox" onchange="if (this.selectedIndex) calcScore();">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+</select>
 <br/><br/>
 
 <h2>Impact</h2>
@@ -203,11 +225,56 @@ Enter Overall Priority (0-5): <input class="redbox" id="priority_val" type="text
         <tr>
             <td>SCORE: </td>
             <td></td>
-            <td><input class="redbox" id="op_impact" type="text" onkeyup="calcScore()"/></td>
-            <td><input class="redbox" id="user_impact" type="text" onkeyup="calcScore()"/></td>
-            <td><input class="redbox" id="privacy_impact" type="text" onkeyup="calcScore()"/></td>
-            <td><input class="redbox" id="eng_impact" type="text" onkeyup="calcScore()"/></td>
-            <td><input class="redbox" id="rep_impact" type="text" onkeyup="calcScore()"/></td>
+            <td>
+                <select id="op_impact" class="redbox" onchange="calcScore();">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+            <td>
+                <select id="user_impact" class="redbox" onchange="calcScore();">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+            <td>
+                <select id="privacy_impact" class="redbox" onchange="calcScore();">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+            <td>
+                <select id="eng_impact" class="redbox" onchange="calcScore();">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+            <td>
+                <select id="rep_impact" class="redbox" onchange="calcScore();">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
         </tr>
     </tbody>
 </table>
