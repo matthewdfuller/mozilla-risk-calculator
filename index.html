@@ -36,11 +36,11 @@
             //Print score to screen
             document.getElementById('score').value = score;
             var rating = "";
-            if(score < 26) {
+            if(score <= 20) {
                 rating = "Low";
-            } else if (score > 25 && score < 76) {
+            } else if (score <= 60) {
                 rating = "Medium";
-            } else if (score > 75 && score < 100) {
+            } else if (score <= 80) {
                 rating = "High";
             } else {
                 rating = "Critical"
