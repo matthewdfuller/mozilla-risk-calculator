@@ -52,7 +52,58 @@
             
             document.getElementById('rating').value = rating;
             
+            var priority_txt = ""
+            
+            switch(priority_val) {
+                case 0:
+                    priority_txt = "N/A";
+                    break;
+                case 1:
+                    priority_txt = "1 (P5) - Age";
+                    break;
+                case 2:
+                    priority_txt = "2 (P4) - Team Quarterly Goal";
+                    break;
+                case 3:
+                    priority_txt = "3 (P3) - Overall Mozilla Quarterly Goal";
+                    break;
+                case 4:
+                    priority_txt = "4 (P2) - Mozilla Initiative";
+                    break;
+                case 5:
+                    priority_txt = "5 (P1) - Incident";
+                    break;
+            }
+            
+            
+            document.getElementById('to_bugzilla').value = "Risk/Priority Ranking Exercise https://wiki.mozilla.org/Security/RiskRatings\n\nPriority: " + priority_txt + "\n\nOperational: " + getRatingText(op_impact) + "\nUser: " + getRatingText(user_impact) + "\nPrivacy: " + getRatingText(privacy_impact) + "\nEngineering: " + getRatingText(eng_impact) + "\nReputational: " + getRatingText(rep_impact) + "\n\nPriority Score: " + score
         }
+        
+        function getRatingText(impact) {
+            var rtnVal = "";
+            switch(impact) {
+                case 0:
+                    rtnVal = "0 - N/A";
+                    break;
+                case 1:
+                    rtnVal = "1 - Minor";
+                    break;
+                case 2:
+                    rtnVal = "2 - Normal";
+                    break;
+                case 3:
+                    rtnVal = "3 - Major";
+                    break;
+                case 4:
+                    rtnVal = "4 - Critical";
+                    break;
+                case 5:
+                    rtnVal = "5 - Blocker";
+                    break;
+            }
+            return rtnVal;
+        }
+        
     </script>
     
     <style type="text/css">
@@ -287,5 +338,8 @@ Enter Overall Priority (0-5):
     Your Score Is: <input class="non_edit" id="score" type="text" readonly="readonly"/><br/><br/>
     
     This is a rating of: <input class="non_edit" id="rating" type="text" readonly="readonly"/>
+
+<h2>Copy Paste to Bugzilla</h2>
+<textarea id="to_bugzilla" style="width: 400px; height: 200px"></textarea>
 
 </body>
