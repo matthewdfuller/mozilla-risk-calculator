@@ -28,7 +28,7 @@
             var max_score = (num_not_zero * 5) * 5;
             var added_up = (op_impact + user_impact + privacy_impact + eng_impact + rep_impact) * priority_val;
             try {
-                var score = (added_up/max_score) * 100;
+                var score = Math.round((added_up/max_score) * 100);
             } catch (e) {
                 var score = 0;
             }
